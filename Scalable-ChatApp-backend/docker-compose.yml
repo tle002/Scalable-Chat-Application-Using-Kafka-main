@@ -1,0 +1,60 @@
+version: '3'
+
+services:
+  mongodb:
+    image: mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+
+  socketservice:
+    build:
+      context: .
+      dockerfile: Dockerfile.socketservice
+    ports:
+      - "4001:4001"
+    depends_on:
+      - mongodb
+    volumes:
+      - ./socketservice.js:/app/socketservice.js
+      - ./ca.pem:/app/ca.pem 
+    restart: always
+
+  dbinsertion:
+    build:
+      context: .
+      dockerfile: Dockerfile.dbinsertionkafka
+    ports:
+      - "5001:5001"
+    depends_on:
+      - mongodb
+    volumes:
+      - ./dbinsertionkafka.js:/app/dbinsertionkafka.js
+      - ./ca.pem:/app/ca.pem  
+    restart: always
+
+  fetchservice:
+    build:
+      context: .
+      dockerfile: Dockerfile.fetchService
+    ports:
+      - "5000:5000"
+    depends_on:
+      - mongodb
+    volumes:
+      - ./fetchService.js:/app/fetchService.js
+    restart: always
+
+  apigateway:
+    build:
+      context: .
+      dockerfile: Dockerfile.apigateway
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./apiGateway.js:/app/apiGateway.js
+    restart: always
+
+volumes:
+  mongodb_data:
