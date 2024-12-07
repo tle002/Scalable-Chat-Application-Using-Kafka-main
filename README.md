@@ -29,15 +29,9 @@ This application is scalable application here we are using kafka for Intermediat
 ## Contribution
 
 We are open For contribution.
-1. We are having issues in Dockerfile. 
+1. I am having issues in Dockerfile. 
 2. Create Multiple Instances of socketservice.js and implement Ngnix as LoadBalancer
 
 
-
-## 
-
-# Fork and Give a Star
-
-[Instagram](https://www.instagram.com/alloneofficialpage/)
 
 
